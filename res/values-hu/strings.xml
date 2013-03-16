@@ -673,4 +673,7 @@
 
     <string name="calllog_after_call">Híváslista hívás után</string>
     <string name="calllog_after_call_summary">Megjeleníti a híváslistát a hívás befejeztével</string>
+
+    <string name="rejected_as_missed">Visszautasított hívás mint nem fogadott</string>
+    <string name="rejected_as_missed_sum">A visszautasított hívást \'nem fogadott\'-nak jelöli \'fogadott helyett\' a híváslistában</string>
 </resources>
