@@ -1546,4 +1546,7 @@
         <item>dismiss the call</item>
     </string-array>
 
+    <string name="calllog_after_call">Call log after call</string>
+    <string name="calllog_after_call_summary">Show the call log after ending a call</string>
+
 </resources>

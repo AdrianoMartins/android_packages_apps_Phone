@@ -670,4 +670,7 @@
         <item>a csörgés elnémul</item>
         <item>a hívás megszakítása</item>
     </string-array>
+
+    <string name="calllog_after_call">Híváslista hívás után</string>
+    <string name="calllog_after_call_summary">Megjeleníti a híváslistát a hívás befejeztével</string>
 </resources>
