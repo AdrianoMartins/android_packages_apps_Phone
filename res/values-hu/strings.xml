@@ -676,4 +676,23 @@
 
     <string name="rejected_as_missed">Visszautasított hívás mint nem fogadott</string>
     <string name="rejected_as_missed_sum">A visszautasított hívást \'nem fogadott\'-nak jelöli \'fogadott helyett\' a híváslistában</string>
+
+    <!-- Blacklist preferences -->
+    <string name="blacklist_title">Feketelista</string>
+    <string name="enable_blacklist_title">Engedélyezés</string>
+    <string name="blacklist_summary_disabled">Kikapcsolva</string>
+    <string name="blacklist_summary">A feketelistán szereplő számokról a bejövő hívások el lesznek utasítva</string>
+    <string name="blacklist_regex_title">Jokerek használata</string>
+    <string name="blacklist_regex_summary">Használható a . egy karakter helyett a * pedig több karakter helyett. Pl: 123.* az 123-mal kezdődő számokhoz és a .*123.* azokhoz a számokhoz amik tartalmazzák az 123-t</string>
+
+    <!-- Blacklist management -->
+    <string name="add_blacklist_number">Szám hozzáadása</string>
+    <string name="add_to_blacklist">Hozzáadás a feketelistához</string>
+    <string name="add_to_blacklist_message">A jövőben a %s számról érkező hívások blokkolva lesznek</string>
+    <string name="remove_blacklist_number_title">Szám törlése</string>
+    <string name="remove_blacklist_number">Biztos törölni akarod a %s számot a feketelistáról?</string>
+
+    <!-- Text for the onscreen "Blacklist" button -->
+    <string name="onscreenBlacklistText">Feketelista</string>
+
 </resources>

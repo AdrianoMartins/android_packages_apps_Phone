@@ -24,6 +24,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -410,38 +411,40 @@ public class PhoneUtils {
 
     static class PhoneSettings {
         static boolean vibOn45Secs(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
+            return getPrefs(context)
                     .getBoolean("button_vibrate_45", false);
         }
         static boolean vibHangup(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("button_vibrate_hangup", false);
+            return getPrefs(context).getBoolean("button_vibrate_hangup", false);
         }
         static boolean vibOutgoing(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("button_vibrate_outgoing", false);
+            return getPrefs(context).getBoolean("button_vibrate_outgoing", false);
         }
 
         static boolean vibCallWaiting(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("button_vibrate_call_waiting", false);
+            return getPrefs(context).getBoolean("button_vibrate_call_waiting", false);
         }
         static boolean keepProximitySensorOn(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("keep_proximity_sensor_on", false);
+            return getPrefs(context).getBoolean("keep_proximity_sensor_on", false);
         }
         static boolean showCallLogAfterCall(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("button_calllog_after_call", false);
+            return getPrefs(context).getBoolean("button_calllog_after_call", false);
         }
         static boolean markRejectedCallsAsMissed(Context context) {
-            return PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("button_rejected_as_missed", false);
+            return getPrefs(context).getBoolean("button_rejected_as_missed", false);
         }
         static int flipAction(Context context) {
-            String s = PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("flip_action", "0");
+            String s = getPrefs(context).getString("flip_action", "0");
             return Integer.parseInt(s);
+        }
+        static boolean isBlacklistEnabled(Context context) {
+            return getPrefs(context).getBoolean("button_enable_blacklist", false);
+        }
+        static boolean isBlacklistRegexEnabled(Context context) {
+            return getPrefs(context).getBoolean("button_blacklist_regex", false);
+        }
+        private static SharedPreferences getPrefs(Context context) {
+            return PreferenceManager.getDefaultSharedPreferences(context);
         }
     };
 
@@ -1728,7 +1731,11 @@ public class PhoneUtils {
             // return it to the user.
 
             cit = new CallerInfoToken();
-            cit.currentInfo = (CallerInfo) userDataObject;
+            if (userDataObject instanceof String) { // only blacklist will cause this, so just ignore this.
+                cit.currentInfo = new CallerInfo();
+            } else {
+                cit.currentInfo = (CallerInfo) userDataObject;
+            }
             cit.asyncQuery = null;
             cit.isFinal = true;
             // since the query is already done, call the listener.
