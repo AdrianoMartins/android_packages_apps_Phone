@@ -440,6 +440,9 @@ public class PhoneUtils {
         static boolean isBlacklistEnabled(Context context) {
             return getPrefs(context).getBoolean("button_enable_blacklist", false);
         }
+        static boolean isBlacklistNotifyEnabled(Context context) {
+            return getPrefs(context).getBoolean("button_nofify", false);
+        }
         static boolean isBlacklistRegexEnabled(Context context) {
             return getPrefs(context).getBoolean("button_blacklist_regex", false);
         }

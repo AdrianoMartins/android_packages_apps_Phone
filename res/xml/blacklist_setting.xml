@@ -23,6 +23,11 @@
         android:title="@string/enable_blacklist_title" />
 
     <CheckBoxPreference
+        android:key="button_nofify"
+        android:title="@string/blacklist_notify"
+        android:dependency="button_enable_blacklist" />
+
+    <CheckBoxPreference
         android:key="button_blacklist_regex"
         android:title="@string/blacklist_regex_title"
         android:summary="@string/blacklist_regex_summary"

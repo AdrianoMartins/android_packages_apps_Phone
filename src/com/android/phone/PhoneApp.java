@@ -284,7 +284,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static final String INSERT_BLACKLIST = "com.android.phone.INSERT_BLACKLIST";
     public static final String REMOVE_BLACKLIST = "com.android.phone.REMOVE_BLACKLIST";
     public static final String EXTRA_NUMBER = "number";
-    public static final int BL_NOTIFICATION_ID = 19991; // just something random
+    public static final int BL_NOTIFICATION_ID = 99;
 
     /**
      * Set the restore mute state flag. Used when we are setting the mute state

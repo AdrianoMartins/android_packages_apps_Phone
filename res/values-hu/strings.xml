@@ -682,6 +682,7 @@
     <string name="enable_blacklist_title">Engedélyezés</string>
     <string name="blacklist_summary_disabled">Kikapcsolva</string>
     <string name="blacklist_summary">A feketelistán szereplő számokról a bejövő hívások el lesznek utasítva</string>
+    <string name="blacklist_notify">Értesítések mutatása</string>
     <string name="blacklist_regex_title">Jokerek használata</string>
     <string name="blacklist_regex_summary">Használható a . egy karakter helyett a * pedig több karakter helyett. Pl: 123.* az 123-mal kezdődő számokhoz és a .*123.* azokhoz a számokhoz amik tartalmazzák az 123-t</string>
 
@@ -691,6 +692,10 @@
     <string name="add_to_blacklist_message">A jövőben a %s számról érkező hívások blokkolva lesznek</string>
     <string name="remove_blacklist_number_title">Szám törlése</string>
     <string name="remove_blacklist_number">Biztos törölni akarod a %s számot a feketelistáról?</string>
+
+    <!-- Blacklist notifications -->
+    <string name="blacklist_notification">%s számról érkező hívás blokkolva lett</string>
+    <string name="unblock_number">Tiltás törlése</string>
 
     <!-- Text for the onscreen "Blacklist" button -->
     <string name="onscreenBlacklistText">Feketelista</string>
