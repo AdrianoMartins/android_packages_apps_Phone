@@ -26,10 +26,13 @@ class Blacklist {
     private Context mContext;
     private HashSet<PhoneNumber> mList = new HashSet<PhoneNumber>();
 
+    public final static String PRIVATE_NUMBER ="0000";
+
     // Blacklist matching type
-    public final static int NO_MATCH = 0;
-    public final static int LIST_MATCH = 1;
-    public final static int REGEX_MATCH = 2;
+    public final static int MATCH_NONE = 0;
+    public final static int MATCH_PRIVATE = 1;
+    public final static int MATCH_LIST = 2;
+    public final static int MATCH_REGEX = 3;
 
     public Blacklist(Context context) {
         mContext = context;
@@ -98,7 +101,7 @@ class Blacklist {
 
     public boolean add(String s) {
         s = stripSeparators(s);
-        if (TextUtils.isEmpty(s) || (matchesBlacklist(s) != NO_MATCH)) {
+        if (TextUtils.isEmpty(s) || (matchesBlacklist(s) != MATCH_NONE)) {
             return false;
         }
         mList.add(new PhoneNumber(s));
@@ -119,11 +122,11 @@ class Blacklist {
     /**
      * Check if the number is in the blacklist
      * @param s: Number to check
-     * @return one of: NO_MATCH, LIST_MATCH or REGEX_MATCH
+     * @return one of: MATCH_NONE, MATCH_PRIVATE, MATCH_LIST or MATCH_REGEX
      */
     public int isListed(String s) {
         if (!PhoneUtils.PhoneSettings.isBlacklistEnabled(mContext)) {
-            return NO_MATCH;
+            return MATCH_NONE;
         }
         return matchesBlacklist(s);
     }
@@ -131,17 +134,23 @@ class Blacklist {
     /**
      * See if the number is in the blacklist
      * @param s: Number to check
-     * @return one of: NO_MATCH, LIST_MATCH or REGEX_MATCH
+     * @return one of: MATCH_NONE, MATCH_PRIVATE, MATCH_LIST or MATCH_REGEX
      */
     private int matchesBlacklist(String s) {
+        // Private number matching
+        if (PhoneUtils.PhoneSettings.isBlacklistPrivateNumberEnabled(mContext)
+                && s.equals(PRIVATE_NUMBER)) {
+            return MATCH_PRIVATE;
+        }
+
         // Standard list matching
         if (mList.contains(new PhoneNumber(s))) {
-            return LIST_MATCH;
+            return MATCH_LIST;
         }
 
         // Regex list matching
         if (!PhoneUtils.PhoneSettings.isBlacklistRegexEnabled(mContext)) {
-            return NO_MATCH;
+            return MATCH_NONE;
         }
 
         for (PhoneNumber number : mList) {
@@ -155,11 +164,11 @@ class Blacklist {
             // is already stripped of separator chars.
             String phone = number.phone.replaceAll("\\+", "\\\\+");
             if (s.matches(phone)) {
-                return REGEX_MATCH;
+                return MATCH_REGEX;
             }
         }
 
-        return NO_MATCH;
+        return MATCH_NONE;
     }
 
     List<String> getItems() {

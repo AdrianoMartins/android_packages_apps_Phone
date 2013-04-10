@@ -193,7 +193,7 @@ public class CallNotifier extends Handler
     private Vibrator mVibrator;
 
     // Blacklist handling
-    private static final String BLACKLIST = "blacklist";
+    private static final String BLACKLIST = "Blacklist";
 
     /**
      * Initialize the singleton CallNotifier instance.
@@ -423,28 +423,26 @@ public class CallNotifier extends Handler
         }
 
         // Blacklist handling
-        String number = c != null ? c.getAddress() : null;
+        String number = c.getAddress();
         if (TextUtils.isEmpty(number)) {
-            number = "0000";
+            number = Blacklist.PRIVATE_NUMBER;
         }
-        if (DBG) log("incoming number is: " + number);
+        if (DBG) log("Incoming number is: " + number);
 
-        if (c != null) {
-            // See if the number is in the blacklist
-            // Returns one of: NO_MATCH, LIST_MATCH or REGEX_MATCH
-            int listType = mApplication.blackList.isListed(number);
-            if (listType != Blacklist.NO_MATCH) {
-                // We have a match
-                try {
-                    // Hang up the call and display notification if enabled
-                    c.setUserData(BLACKLIST);
-                    c.hangup();
-                    showBlacklistNotification(number, listType);
-                } catch (CallStateException e) {
-                    // Do nothing
-                }
-                return;
+        // See if the number is in the blacklist
+        // Result is one of: MATCH_NONE, MATCH_LIST or MATCH_REGEX
+        int listType = mApplication.blackList.isListed(number);
+        if (listType != Blacklist.MATCH_NONE) {
+            // We have a match, set the user and hang up the call and notify
+            if (DBG) log("Incoming call from " + number + " blocked.");
+            c.setUserData(BLACKLIST);
+            try {
+                c.hangup();
+                showBlacklistNotification(number, listType);
+            } catch (CallStateException e) {
+                e.printStackTrace();
             }
+            return;
         }
 
         // Stop any signalInfo tone being played on receiving a Call
@@ -2266,18 +2264,25 @@ public class CallNotifier extends Handler
         Notification.Builder builder = new Notification.Builder(ctx);
         builder.setSmallIcon(R.drawable.ic_block_contact_holo_dark);
         builder.setContentTitle(res.getString(R.string.blacklist_title));
-        String message = res.getString(R.string.blacklist_notification, number);
+
+        String message = "";
+        if (number.equals(Blacklist.PRIVATE_NUMBER)) {
+            message = res.getString(R.string.blacklist_notification_private_number);
+        } else {
+            message = res.getString(R.string.blacklist_notification, number);
+        }
+
         builder.setContentText(message);
 
-        // Add the 'Remove block' notification action only for LIST_MATCH items since
-        // REGEX_MATCH items does not have an associated specific number to unblock
-        if (listType == Blacklist.LIST_MATCH) {
+        // Add the 'Remove block' notification action only for MATCH_LIST items since
+        // MATCH_REGEX items does not have an associated specific number to unblock
+        if (listType == Blacklist.MATCH_LIST) {
             Intent intent = new Intent(PhoneApp.REMOVE_BLACKLIST);
             intent.putExtra(PhoneApp.EXTRA_NUMBER, number);
             PendingIntent pi = PendingIntent.getBroadcast(ctx, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             CharSequence action = ctx.getText(R.string.unblock_number);
-            builder.addAction(R.drawable.ic_menu_trash_holo_dark, action, pi);
+            builder.addAction(R.drawable.ic_unblock_contact_holo_dark, action, pi);
         }
 
         // Post the notification
