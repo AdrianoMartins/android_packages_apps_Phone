@@ -532,10 +532,10 @@ public class InCallTouchUi extends FrameLayout
         mRecordButton.setChecked(inCallControlState.recordIndicatorOn);
 
         // "Add to black list"
-        if (PhoneUtils.PhoneSettings.isBlacklistEnabled(getContext())) {
-            mAddBlacklistButton.setVisibility(View.VISIBLE);
-        } else {
-            mAddBlacklistButton.setVisibility(View.GONE);
+        if (mAddBlacklistButton != null) {
+            boolean visible = PhoneUtils.PhoneSettings.isBlacklistEnabled(getContext()) &&
+                    inCallControlState.canBlacklistCall;
+            mAddBlacklistButton.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
 
         // "Hold" / "Swap":

@@ -17,6 +17,7 @@
 package com.android.phone;
 
 import android.telephony.PhoneNumberUtils;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.telephony.Call;
@@ -57,6 +58,8 @@ public class InCallControlState {
     public boolean canAddCall;
     //
     public boolean canEndCall;
+    //
+    public boolean canBlacklistCall;
     //
     public boolean canSwap;
     public boolean canMerge;
@@ -163,6 +166,13 @@ public class InCallControlState {
         } else {
             canMute = hasActiveForegroundCall;
             muteIndicatorOn = PhoneUtils.getMute();
+        }
+
+        // Blacklisting: Enabled only for incoming calls with a number
+        if (hasActiveForegroundCall && c != null) {
+            canBlacklistCall = c.isIncoming() && !TextUtils.isEmpty(c.getAddress());
+        } else {
+            canBlacklistCall = false;
         }
 
         canRecord = mCM.hasActiveFgCall() && mCM.getActiveFgCallState().isAlive();
