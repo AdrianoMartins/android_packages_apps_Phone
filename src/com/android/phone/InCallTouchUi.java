@@ -99,6 +99,7 @@ public class InCallTouchUi extends FrameLayout
     private ImageButton mSwapButton;
     private ImageButton mAddBlacklistButton;
     private View mHoldSwapSpacer;
+    private CompoundButton mRecordButton;
 
     // "Extra button row"
     private ViewStub mExtraButtonRow;
@@ -191,6 +192,10 @@ public class InCallTouchUi extends FrameLayout
         mSwapButton.setOnClickListener(this);
         mSwapButton.setOnLongClickListener(this);
         mHoldSwapSpacer = mInCallControls.findViewById(R.id.holdSwapSpacer);
+
+        mRecordButton = (CompoundButton) mInCallControls.findViewById(R.id.recordButton);
+        mRecordButton.setOnClickListener(this);
+        mRecordButton.setOnLongClickListener(this);
 
         // Blacklist functionality
         mAddBlacklistButton = (ImageButton) mInCallControls.findViewById(R.id.addBlacklistButton);
@@ -381,6 +386,7 @@ public class InCallTouchUi extends FrameLayout
             case R.id.cdmaMergeButton:
             case R.id.manageConferenceButton:
             case R.id.addBlacklistButton:
+            case R.id.recordButton:
                 // Clicks on the regular onscreen buttons get forwarded
                 // straight to the InCallScreen.
                 mInCallScreen.handleOnscreenButtonClick(id);
@@ -408,6 +414,7 @@ public class InCallTouchUi extends FrameLayout
             case R.id.muteButton:
             case R.id.holdButton:
             case R.id.swapButton:
+            case R.id.recordButton:
             case R.id.audioButton: {
                 final CharSequence description = view.getContentDescription();
                 if (!TextUtils.isEmpty(description)) {
@@ -520,6 +527,9 @@ public class InCallTouchUi extends FrameLayout
 
         // "Audio"
         updateAudioButton(inCallControlState);
+
+        mRecordButton.setEnabled(inCallControlState.canRecord);
+        mRecordButton.setChecked(inCallControlState.recordIndicatorOn);
 
         // "Add to black list"
         if (PhoneUtils.PhoneSettings.isBlacklistEnabled(getContext())) {
@@ -659,6 +669,7 @@ public class InCallTouchUi extends FrameLayout
         log(" - swap: " + getButtonState(mSwapButton));
         log(" - manageConferenceButton: " + getButtonState(mManageConferenceButton));
         log(" - addBlacklistButton: " + getButtonState(mAddBlacklistButton));
+        log(" - record:" + getButtonState(mRecordButton));
     }
 
     private static String getButtonState(View view) {

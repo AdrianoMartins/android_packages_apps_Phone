@@ -1683,6 +1683,10 @@ public class InCallScreen extends Activity
                 onMuteClick();
                 return true;
 
+            case KeyEvent.KEYCODE_MEDIA_RECORD:
+                onRecordClick();
+                return true;
+
             // Various testing/debugging features, enabled ONLY when VDBG == true.
             case KeyEvent.KEYCODE_SLASH:
                 if (VDBG) {
@@ -3003,6 +3007,13 @@ public class InCallScreen extends Activity
         PhoneUtils.setMute(newMuteState);
     }
 
+    private void onRecordClick() {
+        boolean newRecordState = !PhoneUtils.isRecording();
+        if (DBG)
+            log("onRecordClick(): newRecordState = " + newRecordState);
+        PhoneUtils.turnOnRecord(newRecordState);
+    }
+
     /**
      * Toggles whether or not to route in-call audio to the bluetooth
      * headset, or do nothing (but log a warning) if no bluetooth device
@@ -3190,6 +3201,9 @@ public class InCallScreen extends Activity
                 break;
             case R.id.addBlacklistButton:
                 confirmAddBlacklist();
+                break;
+            case R.id.recordButton:
+                onRecordClick();
                 break;
 
             default:

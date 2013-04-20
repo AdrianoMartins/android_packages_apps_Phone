@@ -28,12 +28,18 @@ import android.content.SharedPreferences;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.MediaRecorder.AudioEncoder;
+import android.media.MediaRecorder.AudioSource;
+import android.media.MediaRecorder.OutputFormat;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.net.sip.SipManager;
 import android.os.AsyncResult;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -66,6 +72,7 @@ import com.android.internal.telephony.TelephonyProperties;
 import com.android.internal.telephony.cdma.CdmaConnection;
 import com.android.internal.telephony.sip.SipPhone;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -122,6 +129,8 @@ public class PhoneUtils {
 
     /** Noise suppression status as selected by user */
     private static boolean sIsNoiseSuppressionEnabled = true;
+    private static MediaRecorder recorder = null;
+    private static boolean isRecording = false;
 
     /**
      * Handler that tracks the connections and updates the value of the
@@ -2101,6 +2110,44 @@ public class PhoneUtils {
             return audioManager.isMicrophoneMute();
         } else {
             return app.mCM.getMute();
+        }
+    }
+
+    static boolean isRecording() {
+        if (DBG)
+            Log.d(LOG_TAG, "isRecording: " + isRecording + " recorder: "
+                    + ((null == recorder) ? "null" : recorder));
+        return isRecording && (null != recorder);
+    }
+
+    /**
+     * Turns on/off call record.
+     *
+     * @param flag True when speaker should be on. False otherwise.
+     */
+    static void turnOnRecord(boolean flag) {
+        try {
+            if (flag) {
+                File file = new File(Environment.getExternalStorageDirectory(),
+                        "CallRecord_" + System.currentTimeMillis() + ".3gp");
+                recorder = new MediaRecorder();
+                recorder.setAudioSource(AudioSource.MIC);
+                recorder.setOutputFormat(OutputFormat.THREE_GPP);
+                recorder.setAudioEncoder(AudioEncoder.AMR_NB);
+                recorder.setOutputFile(file.getAbsolutePath());
+                recorder.prepare();
+                recorder.start();
+            } else {
+                if (recorder != null) {
+                    if (isRecording)
+                        recorder.stop();
+                        recorder.release();
+                        recorder = null;
+                }
+            }
+            isRecording = flag;
+        } catch (Exception e) {
+            Log.e(LOG_TAG, " turnOnRecord", e);
         }
     }
 

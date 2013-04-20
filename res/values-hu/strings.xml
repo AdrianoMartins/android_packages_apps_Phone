@@ -697,4 +697,5 @@
     <string name="unblock_number">Eltávolítás</string>
     <string name="onscreenBlacklistText">Tiltólista</string>
 
+    <string name="onscreenRecordText">Hívás rögzítés</string>
 </resources>

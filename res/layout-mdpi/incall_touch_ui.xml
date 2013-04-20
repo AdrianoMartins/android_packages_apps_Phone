@@ -191,7 +191,18 @@
                     android:contentDescription="@string/onscreenBlacklistText"
                     />
 
-                <!-- Separator between 5th (or 6th) button and right padding -->
+                <!-- Separator between 5th (or 6th) button -->
+                <View style="@style/VerticalSeparator" />
+
+                <!-- "Record" -->
+                <!-- This is a "compound button": it has checked and unchecked states. -->
+                <ToggleButton android:id="@+id/recordButton"
+                    style="@style/InCallCompoundButton"
+                    android:background="@drawable/btn_compound_record"
+                    android:contentDescription="@string/onscreenRecordText"
+                    />
+
+                <!-- Separator between 6th (or 7th) button and right padding -->
                 <View style="@style/VerticalSeparator" />
 
             </LinearLayout>
