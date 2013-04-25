@@ -53,6 +53,7 @@
     <string name="remove_blacklist_number">Biztosan eltávolítja (%s) a tiltólistáról?</string>
     <string name="blacklist_notification">Blokkolt hívás a következő számról: %s</string>
     <string name="blacklist_notification_private_number">Blokkolt szám nélküli hívás</string>
+    <string name="blacklist_notification_multiple"><xliff:g id="count">%d</xliff:g> hívás lett blokkolva</string>
     <string name="unblock_number">Eltávolítás</string>
     <string name="onscreenBlacklistText">Tiltólista</string>
 
