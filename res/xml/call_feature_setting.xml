@@ -95,6 +95,12 @@
             android:persistent="true"
             android:summary="@string/rejected_as_missed_sum"/>
 
+        <CheckBoxPreference
+            android:key="breathing_notification"
+            android:title="@string/missed_breath"
+            android:summary="@string/missed_breath_summary"
+            android:defaultValue="false" />
+
         <PreferenceScreen
             android:key="button_blacklist"
             android:title="@string/blacklist_title"

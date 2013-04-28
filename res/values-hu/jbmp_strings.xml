@@ -63,4 +63,8 @@
 
     <string name="onscreenRecordText">Hívás rögzítés</string>
 
+    <!-- Breathing Notifications -->
+    <string name="missed_breath">Villogó értesítés</string>
+    <string name="missed_breath_summary">Az nem fogadott hívás értesítő ikon villogni fog az értesítési sávon.</string>
+
 </resources>

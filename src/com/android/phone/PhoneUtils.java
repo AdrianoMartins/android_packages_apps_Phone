@@ -433,6 +433,9 @@ public class PhoneUtils {
         static boolean isBlacklistRegexEnabled(Context context) {
             return getPrefs(context).getBoolean("button_blacklist_regex", false);
         }
+        static boolean isBreathEnabled(Context context) {
+            return getPrefs(context).getBoolean("breathing_notification", false);
+        }
         private static SharedPreferences getPrefs(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context);
         }

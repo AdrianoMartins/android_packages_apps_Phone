@@ -86,4 +86,8 @@
 
     <string name="onscreenRecordText">Call record</string>
 
+    <!-- Breathing Notifications -->
+    <string name="missed_breath">Breathing Notification</string>
+    <string name="missed_breath_summary">Will give your missed call notifications a breathing effect in the statusbar.</string>
+
 </resources>
