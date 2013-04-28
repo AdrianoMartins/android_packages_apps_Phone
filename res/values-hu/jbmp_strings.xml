@@ -44,6 +44,8 @@
     <string name="blacklist_notify">Értesítés megjelenítése</string>
     <string name="blacklist_private_numbers_title">Rejtett számok</string>
     <string name="blacklist_private_numbers_summary">Szám nélküli hívások blokkolása</string>
+    <string name="blacklist_unknown_numbers_title">Ismeretlen számok</string>
+    <string name="blacklist_unknown_numbers_summary">Minden hívás blokkolása amely nem szerepel a telefonkönyvben</string>
     <string name="blacklist_regex_title">Helyetesítő karakterek használata</string>
     <string name="blacklist_regex_summary">Használja a "."-ot egy szám, a "*"-ot pedig több szám helyettesítésére. Példa: a 123.* blokkolja a 123-mal kezdődő számokat, a .*123.* pedig a 123-at tartalmazó számokat</string>
     <string name="add_blacklist_number">Szám hozzáadása</string>
@@ -53,6 +55,8 @@
     <string name="remove_blacklist_number">Biztosan eltávolítja (%s) a tiltólistáról?</string>
     <string name="blacklist_notification">Blokkolt hívás a következő számról: %s</string>
     <string name="blacklist_notification_private_number">Blokkolt szám nélküli hívás</string>
+    <string name="blacklist_notification_list_private">Rejtett</string>
+    <string name="blacklist_notification_unknown_number">Blokkolt ismeretlen számról érkező hívás: %s</string>
     <string name="blacklist_notification_multiple"><xliff:g id="count">%d</xliff:g> hívás lett blokkolva</string>
     <string name="unblock_number">Eltávolítás</string>
     <string name="onscreenBlacklistText">Tiltólista</string>
