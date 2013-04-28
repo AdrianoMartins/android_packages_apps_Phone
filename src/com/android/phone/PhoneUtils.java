@@ -20,12 +20,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -38,10 +36,8 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.net.sip.SipManager;
 import android.os.AsyncResult;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemProperties;
@@ -64,7 +60,6 @@ import com.android.internal.telephony.CallStateException;
 import com.android.internal.telephony.CallerInfo;
 import com.android.internal.telephony.CallerInfoAsyncQuery;
 import com.android.internal.telephony.Connection;
-import com.android.internal.telephony.IExtendedNetworkService;
 import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.TelephonyCapabilities;
@@ -121,11 +116,6 @@ public class PhoneUtils {
 
     /** Define for not a special CNAP string */
     private static final int CNAP_SPECIAL_CASE_NO = -1;
-
-    // Extended network service interface instance
-    private static IExtendedNetworkService mNwService = null;
-    // used to cancel MMI command after 15 seconds timeout for NWService requirement
-    private static Message mMmiTimeoutCbMsg = null;
 
     /** Noise suppression status as selected by user */
     private static boolean sIsNoiseSuppressionEnabled = true;
@@ -209,18 +199,6 @@ public class PhoneUtils {
     }
 
 
-    private static ServiceConnection ExtendedNetworkServiceConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName name, IBinder iBinder) {
-            if (DBG) log("Extended NW onServiceConnected");
-            mNwService = IExtendedNetworkService.Stub.asInterface(iBinder);
-        }
-
-        public void onServiceDisconnected(ComponentName arg0) {
-            if (DBG) log("Extended NW onServiceDisconnected");
-            mNwService = null;
-        }
-    };
-
     /**
      * Register the ConnectionHandler with the phone, to receive connection events
      */
@@ -231,12 +209,6 @@ public class PhoneUtils {
 
         // pass over cm as user.obj
         cm.registerForPreciseCallStateChanged(mConnectionHandler, PHONE_STATE_CHANGED, cm);
-        // Extended NW service
-        Intent intent = new Intent("com.android.ussd.IExtendedNetworkService");
-        cm.getDefaultPhone().getContext().bindService(intent,
-                ExtendedNetworkServiceConnection, Context.BIND_AUTO_CREATE);
-        if (DBG) log("Extended NW bindService IExtendedNetworkService");
-
     }
 
     /** This class is never instantiated. */
@@ -748,15 +720,6 @@ public class PhoneUtils {
             if (phoneType == Phone.PHONE_TYPE_GSM && gatewayUri == null) {
                 if (DBG) log("dialed MMI code: " + number);
                 status = CALL_STATUS_DIALED_MMI;
-                // Set dialed MMI command to service
-                if (mNwService != null) {
-                    try {
-                        mNwService.setMmiString(number);
-                        if (DBG) log("Extended NW bindService setUssdString (" + number + ")");
-                    } catch (RemoteException e) {
-                        mNwService = null;
-                    }
-                }
             } else {
                 status = CALL_STATUS_FAILED;
             }
@@ -1019,36 +982,6 @@ public class PhoneUtils {
         //
         // Anything that is NOT a USSD request is a normal MMI request,
         // which will bring up a toast (desribed above).
-        // Optional code for Extended USSD running prompt
-        if (mNwService != null) {
-            if (DBG) log("running USSD code, displaying indeterminate progress.");
-            // create the indeterminate progress dialog and display it.
-            ProgressDialog pd = new ProgressDialog(context);
-            CharSequence textmsg = "";
-            try {
-                textmsg = mNwService.getMmiRunningText();
-
-            } catch (RemoteException e) {
-                mNwService = null;
-                textmsg = context.getText(R.string.ussdRunning);
-            }
-            if (DBG) log("Extended NW displayMMIInitiate (" + textmsg + ")");
-            pd.setMessage(textmsg);
-            pd.setCancelable(false);
-            pd.setIndeterminate(true);
-            pd.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            pd.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
-            pd.show();
-            // trigger a 15 seconds timeout to clear this progress dialog
-            mMmiTimeoutCbMsg = buttonCallbackMessage;
-            try {
-                mMmiTimeoutCbMsg.getTarget().sendMessageDelayed(buttonCallbackMessage, 15000);
-            } catch(NullPointerException e) {
-                mMmiTimeoutCbMsg = null;
-            }
-            return pd;
-        }
 
         boolean isCancelable = (mmiCode != null) && mmiCode.isCancelable();
 
@@ -1092,16 +1025,6 @@ public class PhoneUtils {
         MmiCode.State state = mmiCode.getState();
 
         if (DBG) log("displayMMIComplete: state=" + state);
-        // Clear timeout trigger message
-        if(mMmiTimeoutCbMsg != null) {
-            try{
-                mMmiTimeoutCbMsg.getTarget().removeMessages(mMmiTimeoutCbMsg.what);
-                if (DBG) log("Extended NW displayMMIComplete removeMsg");
-            } catch (NullPointerException e) {
-            }
-            mMmiTimeoutCbMsg = null;
-        }
-
 
         switch (state) {
             case PENDING:
@@ -1169,18 +1092,9 @@ public class PhoneUtils {
             // interacting with the user.
             if (state != MmiCode.State.PENDING) {
                 if (DBG) log("MMI code has finished running.");
-
-                // Replace response message with Extended Mmi wording
-                if (mNwService != null) {
-                    try {
-                        text = mNwService.getUserMessage(text);
-                    } catch (RemoteException e) {
-                        mNwService = null;
-                    }
                     if (DBG) log("Extended NW displayMMIInitiate (" + text + ")");
                     if (text == null || text.length() == 0)
                         return;
-                }
 
                 // displaying system alert dialog on the screen instead of
                 // using another activity to display the message.  This
@@ -1314,17 +1228,6 @@ public class PhoneUtils {
             }
         }
 
-        //clear timeout message and pre-set MMI command
-        if (mNwService != null) {
-            try {
-                mNwService.clearMmiString();
-            } catch (RemoteException e) {
-                mNwService = null;
-            }
-        }
-        if (mMmiTimeoutCbMsg != null) {
-            mMmiTimeoutCbMsg = null;
-        }
         return canceled;
     }
 
