@@ -2,9 +2,10 @@ package com.android.phone;
 
 import android.content.Context;
 import android.telephony.PhoneNumberUtils;
-import com.android.internal.telephony.CallerInfo;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.internal.telephony.CallerInfo;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -140,12 +141,16 @@ class Blacklist {
      */
     private int matchesBlacklist(String s) {
         // Private and unknown number matching
-        if (PhoneUtils.PhoneSettings.isBlacklistPrivateNumberEnabled(mContext)) {
-            CallerInfo ci = CallerInfo.getCallerInfo(mContext, s);
-            if (s.equals(PRIVATE_NUMBER)) {
+        if (s.equals(PRIVATE_NUMBER)) {
+            if (PhoneUtils.PhoneSettings.isBlacklistPrivateNumberEnabled(mContext)) {
                 return MATCH_PRIVATE;
-            } else if ((PhoneUtils.PhoneSettings.isBlacklistUnknownNumberEnabled(mContext))
-                    && (!ci.contactExists)) {
+            }
+            return MATCH_NONE;
+        }
+
+        if (PhoneUtils.PhoneSettings.isBlacklistUnknownNumberEnabled(mContext)) {
+            CallerInfo ci = CallerInfo.getCallerInfo(mContext, s);
+            if (!ci.contactExists) {
                 return MATCH_UNKNOWN;
             }
         }

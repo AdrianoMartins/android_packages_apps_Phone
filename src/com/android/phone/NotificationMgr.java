@@ -734,7 +734,7 @@ public class NotificationMgr implements CallerInfoAsyncQuery.OnQueryCompleteList
 
         // Add the 'Remove block' notification action only for MATCH_LIST items since
         // MATCH_REGEX items does not have an associated specific number
-        // to unblock, and MATCH_UNKNOWN unblock for a single number is a nonsense.
+        // to unblock, and MATCH_UNKNOWN unblock for a single number does not make sense.
         boolean addUnblockAction = true;
 
         if (mBlacklistedCalls.size() == 1) {
