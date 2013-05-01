@@ -411,9 +411,6 @@ public class PhoneUtils {
         static boolean showCallLogAfterCall(Context context) {
             return getPrefs(context).getBoolean("button_calllog_after_call", false);
         }
-        static boolean markRejectedCallsAsMissed(Context context) {
-            return getPrefs(context).getBoolean("button_rejected_as_missed", false);
-        }
         static int flipAction(Context context) {
             String s = getPrefs(context).getString("flip_action", "0");
             return Integer.parseInt(s);
