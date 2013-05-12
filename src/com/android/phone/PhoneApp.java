@@ -825,8 +825,8 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
 
     private void enableProximitySensor(boolean enable) {
         boolean naturalMotionOn = PhoneUtils.PhoneSettings.answerByNaturalMotion(this);
-        if (enable && naturalMotionOn) {
             mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (enable && naturalMotionOn) {
             mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
             mSensorManager.registerListener(mSensorListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
             mSensorEnabled = true;
