@@ -2067,7 +2067,7 @@ public class PhoneUtils {
         if (flag) {
             File recording = null;
             recorder = new MediaRecorder();
-            recorder.setAudioSource(AudioSource.VOICE_RECOGNITION);
+            recorder.setAudioSource(AudioSource.MIC);
             recorder.setOutputFormat(OutputFormat.MPEG_4);
             recorder.setAudioEncoder(AudioEncoder.AAC);
             recorder.setAudioEncodingBitRate(18000);
