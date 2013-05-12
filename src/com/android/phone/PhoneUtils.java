@@ -68,7 +68,10 @@ import com.android.internal.telephony.cdma.CdmaConnection;
 import com.android.internal.telephony.sip.SipPhone;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -444,8 +447,6 @@ public class PhoneUtils {
                 return false;
         }
     };
-
-
 
     static boolean hangupRingingCall(Call ringing) {
         if (DBG) log("hangup ringing call");
@@ -2035,34 +2036,69 @@ public class PhoneUtils {
         return isRecording && (null != recorder);
     }
 
+    private static File createRecordingTempFile(String path) {
+        File dir = new File(path);
+        if (!dir.exists()) {
+            try {
+                dir.mkdirs();
+        } catch (Exception e) {
+                Log.e("PhoneUtils", "unable to create directory " + dir + ": " + e);
+                return null;
+            }
+        } else if (!dir.canWrite()) {
+            Log.e("PhoneUtils", "no write permission for directory: " + dir);
+            return null;
+        }
+        try {
+            return File.createTempFile("call", ".tmp", dir);
+        } catch (IOException e) {
+            Log.e("PhoneUtils", "unable to create temp file in " + dir + ": " + e);
+            return null;
+        }
+    }
+
     /**
      * Turns on/off call record.
      *
      * @param flag True when speaker should be on. False otherwise.
      */
     static void turnOnRecord(boolean flag) {
-        try {
-            if (flag) {
-                File file = new File(Environment.getExternalStorageDirectory(),
-                        "CallRecord_" + System.currentTimeMillis() + ".3gp");
-                recorder = new MediaRecorder();
-                recorder.setAudioSource(AudioSource.MIC);
-                recorder.setOutputFormat(OutputFormat.THREE_GPP);
-                recorder.setAudioEncoder(AudioEncoder.AMR_NB);
-                recorder.setOutputFile(file.getAbsolutePath());
+        String dirName = Environment.getExternalStorageDirectory() + "/CallRecordings/";
+        if (flag) {
+            File recording = null;
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(AudioSource.VOICE_RECOGNITION);
+            recorder.setOutputFormat(OutputFormat.MPEG_4);
+            recorder.setAudioEncoder(AudioEncoder.AAC);
+            recorder.setAudioEncodingBitRate(18000);
+            recording = createRecordingTempFile(dirName);
+            if (recording == null) {
+                recorder.release();
+                recorder = null;
+                return;
+            }
+            Calendar cl = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
+            String newRecordingName = dirName + sdf.format(cl.getTime()) + ".m4a";
+            recording.renameTo(new File(newRecordingName));
+            recorder.setOutputFile(newRecordingName);
+            isRecording = flag;
+            try {
                 recorder.prepare();
                 recorder.start();
-            } else {
-                if (recorder != null) {
-                    if (isRecording)
-                        recorder.stop();
-                        recorder.release();
-                        recorder = null;
-                }
+            } catch (IOException e) {
+                Log.e("PhoneUtils", "io problems while preparing [" +
+                newRecordingName + "]: " + e.getMessage());
+                recorder.release();
+                recorder = null;
             }
-            isRecording = flag;
-        } catch (Exception e) {
-            Log.e(LOG_TAG, " turnOnRecord", e);
+        } else {
+            if (recorder != null) {
+                if (isRecording)
+                    recorder.stop();
+                    recorder.release();
+                    recorder = null;
+            }
         }
     }
 
