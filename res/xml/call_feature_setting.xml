@@ -90,6 +90,12 @@
             android:summary="@string/calllog_after_call_summary" />
 
         <CheckBoxPreference
+            android:key="button_callback"
+            android:title="@string/callback"
+            android:persistent="true"
+            android:summary="@string/callback_sum" />
+
+        <CheckBoxPreference
             android:key="breathing_notification"
             android:title="@string/missed_breath"
             android:summary="@string/missed_breath_summary"

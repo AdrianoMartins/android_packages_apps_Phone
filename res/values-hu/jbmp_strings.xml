@@ -64,4 +64,9 @@
     <string name="missed_breath">Villogó értesítés</string>
     <string name="missed_breath_summary">Az nem fogadott hívás értesítő ikon villogni fog az értesítési sávon.</string>
 
+    <!-- Hang up and dial back from IncallScreen -->
+    <string name="description_target_callback">Elutasít és visszahív</string>
+    <string name="callback">Elutasítás és visszahívás</string>
+    <string name="callback_sum">A bejövő hívásnál választható az elutasítás és visszahívás</string>
+
 </resources>
