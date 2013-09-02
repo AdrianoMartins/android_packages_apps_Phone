@@ -1,0 +1,95 @@
+<!--  Copyright (C) 2013 JBMini Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Setting title for the flip action setting. -->
+    <string name="flip_action_title">Ação de Virar o Telefone/string>
+
+    <!-- Dialog title of the flip action setting. -->
+    <string name="flip_action_dialog_title">Vire o Telefone Para\u2026</string>
+
+    <!-- Setting summary for the flip action setting. -->
+    <string name="flip_action_summary">Virando o telefone para baixo deve <xliff:g id="action">%s</xliff:g></string>
+
+    <!-- Values for the flip action settings. -->
+    <string-array name="flip_action_setting_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- Entries listed in the setting for the flip action. -->
+    <string-array name="flip_action_setting_entries">
+        <item>Fazer Nada</item>
+        <item>Silenciar</item>
+        <item>Recusar chamada</item>
+    </string-array>
+
+    <!-- Summary texts for flip action. Must be ordered by numerical
+         value (do nothing = 0, mute = 1, dismiss = 2) -->
+    <string-array name="flip_action_summary_entries">
+        <item>Fazer Nada</item>
+        <item>Silenciar</item>
+        <item>Recusar chamada</item>
+    </string-array>
+
+    <string name="calllog_after_call">Registo de chamadas após chamada</string>
+    <string name="calllog_after_call_summary">Mostrar o registo de chamadas depois de terminar uma chamada</string>
+
+    <!-- Blacklist preferences -->
+    <string name="blacklist_title">Lista Negra</string>
+    <string name="enable_blacklist_title">Habiliar Lista Negra</string>
+    <string name="blacklist_summary_disabled">Desativar</string>
+    <string name="blacklist_summary">As chamadas recebidas de números de telefone na lista negra serão bloqueados</string>
+    <string name="blacklist_notify">Mostrar notificação</string>
+    <string name="blacklist_private_numbers_title">Números privados</string>
+    <string name="blacklist_private_numbers_summary">Bloquear as chamadas recebidas de números privados</string>
+    <string name="blacklist_unknown_numbers_title">Números desconhecidos</string>
+    <string name="blacklist_unknown_numbers_summary">Bloquear as chamadas recebidas de números fora da lista de contatos</string>
+    <string name="blacklist_regex_title">Utilize curingas</string>
+    <string name="blacklist_regex_summary">Usar . como um curinga e * para repetição. Por exemplo 123.* bloqueia números começando com 123 e .*123.* bloqueia números contendo 123</string>
+
+    <!-- Blacklist management -->
+    <string name="add_blacklist_number">Adicionar número de telefone</string>
+    <string name="add_to_blacklist">Adicionar à lista negra</string>
+    <string name="add_to_blacklist_message">Futuras chamadas de %s serão bloqueadas</string>
+    <string name="remove_blacklist_number_title">Remover número</string>
+    <string name="remove_blacklist_number">Você quer remover %s da lista negra?</string>
+
+    <!-- Blacklist notifications -->
+    <string name="blacklist_notification">Bloqueada uma chamada de %s</string>
+    <string name="blacklist_notification_private_number">Bloqueada uma chamada de um número privado</string>
+    <string name="blacklist_notification_list_private">Privado</string>
+    <string name="blacklist_notification_unknown_number">Bloqueado o número desconhecido %s</string>
+    <string name="blacklist_notification_multiple"><xliff:g id="count">%d</xliff:g> chamadas foram bloqueadas</string>
+    <string name="unblock_number">Desbloquear número de telefone</string>
+
+    <!-- Text for the onscreen "Blacklist" button -->
+    <string name="onscreenBlacklistText">Lista Negra</string>
+
+    <string name="onscreenRecordText">Gravar Ligação</string>
+
+    <!-- Breathing Notifications -->
+    <string name="missed_breath">Notificação em Movimento</string>
+    <string name="missed_breath_summary">Dará uma efeito de movimento ao ícone de notificação de chamadas perdidas na barra de status.</string>
+
+    <!-- Hang up and dial back from IncallScreen -->
+    <string name="description_target_callback">Desligar e ligar de volta</string>
+    <string name="callback">Desligar e ligar de volta</string>
+    <string name="callback_sum">Habiliatar a função de desligar e ligar de volta diretamenta na tela de ligação entrante.</string>
+
+</resources>
