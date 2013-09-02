@@ -442,13 +442,6 @@ public class PhoneUtils {
         private static SharedPreferences getPrefs(Context context) {
             return PreferenceManager.getDefaultSharedPreferences(context);
         }
-        static boolean answerByNaturalMotion(Context context) {
-            int anm = android.provider.Settings.System.getInt(context.getContentResolver(),android.provider.Settings.System.NATURAL_MOTION, 0);
-            if (anm == 1)
-                return true;
-            else
-                return false;
-        }
     };
 
     static boolean hangupRingingCall(Call ringing) {
