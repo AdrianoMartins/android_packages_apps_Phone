@@ -90,6 +90,6 @@
     <!-- Hang up and dial back from IncallScreen -->
     <string name="description_target_callback">Desligar e ligar de volta</string>
     <string name="callback">Desligar e ligar de volta</string>
-    <string name="callback_sum">Habiliatar a função de desligar e ligar de volta diretamenta na tela de ligação entrante.</string>
+    <string name="callback_sum">Habilitar a função de desligar e ligar de volta diretamenta na tela de ligação entrante.</string>
 
 </resources>
