@@ -47,8 +47,8 @@
         <item>Recusar chamada</item>
     </string-array>
 
-    <string name="calllog_after_call">Registo de chamadas após uma chamada</string>
-    <string name="calllog_after_call_summary">Mostrar o registo de chamadas depois de terminar uma chamada</string>
+    <string name="calllog_after_call">Registro de chamadas após uma chamada</string>
+    <string name="calllog_after_call_summary">Mostrar o registro de chamadas depois de cada chamada</string>
 
     <!-- Blacklist preferences -->
     <string name="blacklist_title">Lista Negra</string>
@@ -85,7 +85,7 @@
 
     <!-- Breathing Notifications -->
     <string name="missed_breath">Efeito na Notificação</string>
-    <string name="missed_breath_summary">Ativa um efeito de movimento ao ícone de notificação de chamadas perdidas na barra de status.</string>
+    <string name="missed_breath_summary">Ativa um efeito de movimento ao ícone de notificação de chamadas perdidas</string>
 
     <!-- Hang up and dial back from IncallScreen -->
     <string name="description_target_callback">Desligar e ligar de volta</string>
