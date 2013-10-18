@@ -1,0 +1,80 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Setting title for the flip action setting. -->
+    <string name="flip_action_title">Geräteaktivität</string>
+
+    <!-- Dialog title of the flip action setting. -->
+    <string name="flip_action_dialog_title">Umdrehen führt zu\u2026</string>
+
+    <!-- Setting summary for the flip action setting. -->
+    <string name="flip_action_summary">Beim Umdrehen wird <xliff:g id="action">%s</xliff:g></string>
+
+    <!-- Values for the flip action settings. -->
+    <string-array name="flip_action_setting_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- Entries listed in the setting for the flip action. -->
+    <string-array name="flip_action_setting_entries">
+        <item>Nichts tun</item>
+        <item>Lautlosmodus</item>
+        <item>Anruf ablehnen</item>
+    </string-array>
+
+    <!-- Summary texts for flip action. Must be ordered by numerical
+         value (do nothing = 0, mute = 1, dismiss = 2) -->
+    <string-array name="flip_action_summary_entries">
+        <item>nichts getan</item>
+        <item>der Lautlosmodus ausgeführt</item>
+        <item>der Anruf abgelehnt</item>
+    </string-array>
+
+    <string name="calllog_after_call">Anrufstatistik</string>
+    <string name="calllog_after_call_summary">Übersicht nach Beenden des Telefonates anzeigen</string>
+
+    <!-- Blacklist preferences -->
+    <string name="blacklist_title">Schwarzliste</string>
+    <string name="enable_blacklist_title">Schwarzliste aktivieren</string>
+    <string name="blacklist_summary_disabled">Deaktivieren</string>
+    <string name="blacklist_summary">Eingehende Anrufe von Nummern in der Schwarzen Liste werden geblockt</string>
+    <string name="blacklist_notify">Benachrichtigung anzeigen</string>
+    <string name="blacklist_private_numbers_title">Geheimnummern</string>
+    <string name="blacklist_private_numbers_summary">Anrufe von unterdrückten Nummern blockieren</string>
+    <string name="blacklist_unknown_numbers_title">Unbekannte Nummern</string>
+    <string name="blacklist_unknown_numbers_summary">Anrufe von Nummern ausserhalb der Kontaktliste blockieren</string>
+    <string name="blacklist_regex_title">Platzhalter verwenden</string>
+    <string name="blacklist_regex_summary">Verwende . als Platzhalter und * für Wiederholungen. Bsp. 123.* blockiert Nummern die mit 123 beginnen und .*123.* die 123 beinhalten</string>
+
+    <!-- Blacklist management -->
+    <string name="add_blacklist_number">Nummer hinzufügen</string>
+    <string name="add_to_blacklist">Auf die Schwarzliste</string>
+    <string name="add_to_blacklist_message">Neue Anrufe von %s werden blockiert</string>
+    <string name="remove_blacklist_number_title">Nummer entfernen</string>
+    <string name="remove_blacklist_number">Möchten Sie %s aus der Liste entfernen?</string>
+
+    <!-- Blacklist notifications -->
+    <string name="blacklist_notification">Blockierter Anruf von %s</string>
+    <string name="blacklist_notification_private_number">Blockierter Anruf einer Geheimnummer</string>
+    <string name="blacklist_notification_list_private">Geheim</string>
+    <string name="blacklist_notification_unknown_number">Blockierte unbekannte Nummer: %s</string>
+    <string name="blacklist_notification_multiple"><xliff:g id="count">%d</xliff:g> Anrufe wurden blockiert</string>
+    <string name="unblock_number">Entsperren</string>
+
+    <!-- Text for the onscreen "Blacklist" button -->
+    <string name="onscreenBlacklistText">Schwarzliste</string>
+
+    <string name="onscreenRecordText">Anrufaufzeichnung</string>
+
+    <!-- Breathing Notifications -->
+    <string name="missed_breath">Wiederkehrende Benachrichtigung</string>
+    <string name="missed_breath_summary">Nicht gelesene Anrufbenachrichtigungen erscheinen blinkend in der Statusleiste</string>
+
+    <!-- Hang up and dial back from IncallScreen -->
+    <string name="description_target_callback">Auflegen und Rückruf</string>
+    <string name="callback">Auflegen und Rückruf</string>
+    <string name="callback_sum">Erweiterte Funktionen direkt im Anrufbildschirm aktivieren</string>
+
+</resources>
